@@ -29,6 +29,21 @@ class TestCalculatorMethods(unittest.TestCase):
         self.calculator.divide()
         self.assertEqual("/", self.calculator.expression)
 
+    def test_open_parantheses(self):
+        self.calculator.open_parenthesis()
+        self.assertEqual("(", self.calculator.expression)
+
+    def test_close_parantheses(self):
+        self.calculator.close_parenthesis()
+        self.assertEqual(")", self.calculator.expression)
+
+    def test_sqrt(self):
+        self.calculator.sqrt()
+        self.assertEqual("sqrt", self.calculator.expression)
+
+    def test_power(self):
+        self.calculator.power()
+        self.assertEqual("**", self.calculator.expression)
 
 class TestCalculatorUsage(unittest.TestCase):
     def setUp(self):
@@ -49,3 +64,42 @@ class TestCalculatorUsage(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             self.calculator.compute_result()
         self.assertEqual("Invalid expression: 1+", str(context.exception))
+
+class TestComplexExpressions(unittest.TestCase):
+    def setUp(self):
+        self.calculator = Calculator()
+
+    def test_expression_with_parentheses(self):
+        self.calculator.open_parenthesis()
+        self.calculator.digit(1)
+        self.calculator.plus()
+        self.calculator.digit(2)
+        self.calculator.close_parenthesis()
+        self.calculator.multiply()
+        self.calculator.digit(3)
+        self.assertEqual("(1+2)*3", self.calculator.expression)
+        self.assertEqual(9, self.calculator.compute_result())
+
+    def test_expression_with_sqrt(self):
+        self.calculator.digit(1)
+        self.calculator.plus()
+        self.calculator.sqrt()
+        self.calculator.open_parenthesis()
+        self.calculator.digit(1)
+        self.calculator.digit(1)
+        self.calculator.minus()
+        self.calculator.digit(2)
+        self.calculator.close_parenthesis()
+        self.assertEqual("1+sqrt(11-2)", self.calculator.expression)
+        self.assertEqual(4, self.calculator.compute_result())
+
+    def test_expression_with_pow(self):
+        self.calculator.open_parenthesis()
+        self.calculator.digit(1)
+        self.calculator.plus()
+        self.calculator.digit(1)
+        self.calculator.close_parenthesis()
+        self.calculator.power()
+        self.calculator.digit(3)
+        self.assertEqual("(1+1)**3", self.calculator.expression)
+        self.assertEqual(8, self.calculator.compute_result())

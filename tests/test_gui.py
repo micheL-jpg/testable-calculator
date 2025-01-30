@@ -8,7 +8,7 @@ class CalculatorGUITestCase(unittest.TestCase):
         self.app = CalculatorApp()
         self.app._run_prepare()
 
-    def assert_button_exist(self, button_text):
+    def assert_button_exists(self, button_text):
         self.assertIsNotNone(self.app.find_button_by(button_text))
 
     def press_button(self, button_text):
@@ -56,4 +56,34 @@ class TestLayout(CalculatorGUITestCase):
         for button_text in self.buttons_to_test:
             with self.subTest(button=button_text):
                 self.assert_button_exists(button_text)
+
+class TestExpressions(CalculatorGUITestCase):
+
+    def test_expression_with_parentheses(self):
+        self.press_button("(")
+        self.press_button("1")
+        self.press_button("+")
+        self.press_button("2")
+        self.press_button(")")
+        self.press_button("*")
+        self.press_button("3")
+        self.assert_display("(1+2)*3")
+        self.press_button("=")
+        self.assert_display("9")
+
+    def test_expression_wit_sqrt(self):
+        self.press_button("sqrt")
+        self.press_button("4")
+        self.press_button(")")
+        self.assert_display("sqrt(4)")
+        self.press_button("=")
+        self.assert_display("2.0")
+
+    def test_expression_with_pow(self):
+        self.press_button("2")
+        self.press_button("**")
+        self.press_button("3")
+        self.assert_display("2**3")
+        self.press_button("=")
+        self.assert_display("8")
         
