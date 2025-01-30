@@ -73,6 +73,7 @@ class TestExpressions(CalculatorGUITestCase):
 
     def test_expression_wit_sqrt(self):
         self.press_button("sqrt")
+        self.press_button("(")
         self.press_button("4")
         self.press_button(")")
         self.assert_display("sqrt(4)")
