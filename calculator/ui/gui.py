@@ -6,10 +6,10 @@ from calculator import Calculator
 
 
 BUTTONS_NAMES = [
-    ['7', '8', '9', '/'],
-    ['4', '5', '6', '*'],
-    ['1', '2', '3', '-'],
-    ['.', '0', '=', '+'],
+    ['7', '8', '9', '/', '('],
+    ['4', '5', '6', '*', ')'],
+    ['1', '2', '3', '-', 'sqrt'],
+    ['.', '0', '=', '+', '**'],
 ]
 
 
@@ -67,6 +67,14 @@ class CalculatorApp(App):
                 self._calc.dot()
             case "C":
                 self._calc.clear()
+            case "(":
+                self._calc.open_parenthesis()
+            case ")":
+                self._calc.close_parenthesis()
+            case "sqrt":
+                self._calc.sqrt()
+            case "**":
+                self._calc.power()
             case _:
                 self._calc.digit(button.text)
         self.display.text = self._calc.expression or "0"
