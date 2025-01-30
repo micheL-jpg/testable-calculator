@@ -1,3 +1,5 @@
+from math import sqrt
+
 Number = int | float
 
 
@@ -34,6 +36,18 @@ class Calculator:
 
     def dot(self):
         self._append(".")
+
+    def open_parenthesis(self):
+        self._append("(")
+
+    def close_parenthesis(self):
+        self._append(")")
+
+    def sqrt(self):
+        self._append("sqrt")
+    
+    def power(self):
+        self._append("**")
 
     def clear(self):
         self.expression = ""
